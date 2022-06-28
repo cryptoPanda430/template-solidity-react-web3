@@ -24,7 +24,7 @@ function App() {
       const contract = new ethers.Contract(stakingAddress, Staking.abi, signer)
       const rewardContract = new ethers.Contract(rTokenAddress,RewardToken.abi, signer)
       try {
-        await rewardContract.approve(bankAddress,ethers.utils.parseUnits(poolAmount,18));
+        await rewardContract.approve(stakingAddress,ethers.utils.parseUnits(poolAmount,18));
         await contract.deposit(ethers.utils.parseUnits(poolAmount,18));
         console.log("Pool deposit")
       } catch (err) {
@@ -100,12 +100,12 @@ function App() {
           <input onChange={e=> setPoolAmount(e.target.value)} placeholder="Pool amount" />
           <button onClick={settingPool}> Pool Deposit</button>
         </div>
-        <div>
+        {/* <div>
           <input onChange={e=> setCoolDown(e.target.value)} placeholder='Setting T' />
           <button onClick={settingCoolDown}>CoolDown Setting</button>
-        </div>
+        </div> */}
         <div>
-          <button onClick={ownerWithdraw}> Owner Withdraw</button>
+          {/* <button onClick={ownerWithdraw}> Owner Withdraw</button> */}
         </div>
 
         <p>User Panel</p>
