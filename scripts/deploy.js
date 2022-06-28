@@ -3,7 +3,8 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-import { ethers } from "hardhat";
+// import { ethers } from "hardhat";
+const hre = require("hardhat");
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -27,10 +28,11 @@ async function main() {
 
   //0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
   //pancake 0x10ED43C718714eb63d5aA57B78B54704E256024E
-  const Staking = await ethers.getContractFactory("ImmeStaking");
+  const Staking = await hre.ethers.getContractFactory("ImmeStaking");
   const staking = await Staking.deploy(
     "0x9ad38251cD6B157B32C4D913b03165781bd2d019",
-    "0xAD3E28dA2B1480cdB2D79C70764458AaBa1c57F3");
+    "0xAD3E28dA2B1480cdB2D79C70764458AaBa1c57F3",
+    "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D");//imme, busd, router
 
   await staking.deployed();
 
