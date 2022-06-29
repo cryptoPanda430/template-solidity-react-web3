@@ -8,7 +8,7 @@ import Staking from './artifacts/contracts/Staking.sol/ImmeStaking.json';
 import StakingToken from './artifacts/contracts/BUSD.sol/StakingToken.json';
 import RewardToken from './artifacts/contracts/ImmeToken.sol/RewardToken.json';
 
-const stakingAddress = '0xBc44DbCf0990C3A1a42330E5De1f304dcb1d892d';
+const stakingAddress = '0xECb29F39D0970115dFEF488B9D5AF4dfA0dfAAf8';
 const sTokenAddress = '0xAD3E28dA2B1480cdB2D79C70764458AaBa1c57F3'; //StakingToken.networks['3'].address;
 const rTokenAddress = '0x9ad38251cD6B157B32C4D913b03165781bd2d019';
 
@@ -72,8 +72,7 @@ function App() {
   // }
 
   async function stake() {
-    if (typeof window.ethereum !== 'undefined') {
-      debugger;
+    if (typeof window.ethereum !== 'undefined') {      
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       
       const signer = provider.getSigner()
@@ -90,14 +89,16 @@ function App() {
       );
       try {
         let amountEthFromDAI = await uniswap.getAmountsOut(
-          100,
+          depositAmount,
           [sTokenAddress, rTokenAddress]
         )
       
       console.log("Amount of ETH from DAI: ", amountEthFromDAI[1].toString());
 
-        await stakingContract.approve(stakingAddress,ethers.utils.parseUnits(depositAmount,18));
-        await contract.staking(ethers.utils.parseUnits(depositAmount,18))
+        const tx = await stakingContract.approve(stakingAddress,ethers.utils.parseUnits(depositAmount,18));
+        await tx.wait();
+        const tx1 = await contract.staking(ethers.utils.parseUnits(depositAmount,18))
+        await tx1.wait();
         console.log("Deposit")
       } catch (err) {
         console.log("Error: ", err)
